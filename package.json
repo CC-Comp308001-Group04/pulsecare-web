@@ -33,6 +33,7 @@
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.38",
+    "shell-quote": "^1.8.1",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.3"
   },
@@ -45,10 +46,5 @@
     "hooks": {
       "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
-    ]
   }
 }
