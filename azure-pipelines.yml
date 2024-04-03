@@ -29,6 +29,7 @@ stages:
               repository: "pulsecare-web"
               command: "build"
               Dockerfile: "**/Dockerfile"
+              buildContext: "**"
               tags: "$(tag)"
               arguments: "--target=production"
         # - task: Docker@2
