@@ -3,42 +3,43 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  - main
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
-  tag: '$(Build.BuildId)'
+  tag: "$(Build.BuildId)"
   DOCKER_BUILDKIT: 1
 
 stages:
-- stage: Build
-  displayName: Build image
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
-    steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        containerRegistry: 'Github Container Registry'
-        repository: 'pulsecare-web'
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
-        arguments: '--target=production'
-    # - task: Docker@2
-    #   inputs:
-    #     containerRegistry: 'Github Container Registry'
-    #     repository: 'pulsecare-web'
-    #     command: 'push'
-    # - task: DockerCompose@0
-    #   inputs:
-    #     containerregistrytype: 'Container Registry'
-    #     dockerRegistryEndpoint: 'Github Container Registry'
-    #     dockerComposeFile: '**/docker/docker-compose.yml'
-    #     action: 'Run a Docker Compose command'
-    #     arguments: '--profile=prod'
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        # Define agent to run the pipeline
+        pool:
+          name: default
+        steps:
+          - task: Docker@2
+            displayName: Build an image
+            inputs:
+              containerRegistry: "Github Container Registry"
+              repository: "pulsecare-web"
+              command: "build"
+              Dockerfile: "**/Dockerfile"
+              tags: "$(tag)"
+              arguments: "--target=production"
+        # - task: Docker@2
+        #   inputs:
+        #     containerRegistry: 'Github Container Registry'
+        #     repository: 'pulsecare-web'
+        #     command: 'push'
+        # - task: DockerCompose@0
+        #   inputs:
+        #     containerregistrytype: 'Container Registry'
+        #     dockerRegistryEndpoint: 'Github Container Registry'
+        #     dockerComposeFile: '**/docker/docker-compose.yml'
+        #     action: 'Run a Docker Compose command'
+        #     arguments: '--profile=prod'
