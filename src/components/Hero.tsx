@@ -9,7 +9,7 @@ export const Hero = () => {
         <main className="text-5xl md:text-6xl font-bold">
           <h1 className="inline">
             <span className="inline bg-gradient-to-r from-[#FFA500] via-[#FF7F00] to-[#FF4500] text-transparent bg-clip-text">
-              PulseCare
+              PulseCareeeeee
             </span>{" "}
           </h1>{" "}
           to connect{" "}
