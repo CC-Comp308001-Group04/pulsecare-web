@@ -17,7 +17,7 @@ services:
     # container_name: web
     restart: always
     environment:
-      - MONGODB_URL=mongodb://mongo:27017/comp308_Auth
+      - MONGODB_URL=mongodb://mongo:27017/pulsecare
     build:
       context: ..
       dockerfile: docker/Dockerfile
