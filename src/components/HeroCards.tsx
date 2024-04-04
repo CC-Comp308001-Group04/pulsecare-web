@@ -47,7 +47,7 @@ export const HeroCards = () => {
           /> */}
           <Avatar className="absolute grayscale-[0%] -top-12 rounded-full w-24 h-24 aspect-square object-cover">
             <AvatarImage alt="" src="https://github.com/davdedev.png" />
-            <AvatarFallback>WL</AvatarFallback>
+            <AvatarFallback>DP</AvatarFallback>
           </Avatar>
           <CardTitle className="text-center">David Pietrocola</CardTitle>
           <CardDescription className="font-normal text-primary">
