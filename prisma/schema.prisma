@@ -23,7 +23,6 @@ model Post {
 
   body     String
 
-  author   User      @relation(fields: [authorId], references: [id])
 
   authorId String    @db.ObjectId
 
@@ -42,7 +41,6 @@ model User {
 
   address Address?
 
-  posts   Post[]
 
 }
 
