@@ -137,8 +137,8 @@ devDependencies:
     specifier: ^15.2.2
     version: 15.2.2
   next-auth:
-    specifier: 5.0.0-beta.15
-    version: 5.0.0-beta.15(next@14.1.4)(react@18.2.0)
+    specifier: 5.0.0-beta.16
+    version: 5.0.0-beta.16(next@14.1.4)(react@18.2.0)
   postcss:
     specifier: ^8.4.38
     version: 8.4.38
@@ -174,10 +174,10 @@ packages:
       }
     engines: { node: ">=10" }
 
-  /@auth/core@0.28.0:
+  /@auth/core@0.28.1:
     resolution:
       {
-        integrity: sha512-/fh/tb/L4NMSYcyPoo4Imn8vN6MskcVfgESF8/ndgtI4fhD/7u7i5fTVzWgNRZ4ebIEGHNDbWFRxaTu1NtQgvA==,
+        integrity: sha512-gvp74mypYZADpTlfGRp6HE0G3pIHWvtJpy+KZ+8FvY0cmlIpHog+jdMOdd29dQtLtN25kF2YbfHsesCFuGUQbg==,
       }
     peerDependencies:
       "@simplewebauthn/browser": ^9.0.1
@@ -2737,7 +2737,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001608
-      electron-to-chromium: 1.4.734
+      electron-to-chromium: 1.4.735
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -3371,10 +3371,10 @@ packages:
         integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==,
       }
 
-  /electron-to-chromium@1.4.734:
+  /electron-to-chromium@1.4.735:
     resolution:
       {
-        integrity: sha512-pYfGUc+ll8AOzLbLC0lfgwkvCZIV+sKGuFFsSNuF3K3ujrmem8jIjg/t6DNq0J7biTSS1hCt/Hts0nmA3ZyprQ==,
+        integrity: sha512-pkYpvwg8VyOTQAeBqZ7jsmpCjko1Qc6We1ZtZCjRyYbT5v4AIUKDy5cQTRotQlSSZmMr8jqpEt6JtOj5k7lR7A==,
       }
     dev: true
 
@@ -5564,10 +5564,10 @@ packages:
       }
     dev: true
 
-  /next-auth@5.0.0-beta.15(next@14.1.4)(react@18.2.0):
+  /next-auth@5.0.0-beta.16(next@14.1.4)(react@18.2.0):
     resolution:
       {
-        integrity: sha512-UQggNq8CDu3/w8CYkihKLLnRPNXel98K0j7mtjj9a6XTNYo4Hni8xg/2h1YhElW6vXE8mgtvmH11rU8NKw86jQ==,
+        integrity: sha512-dX2snB+ezN23tFzSes3n3uosT9iBf0eILPYWH/R2fd9n3ZzdMQlRzq7JIOPeS1aLc84IuRlyuyXyx9XmmZB6og==,
       }
     peerDependencies:
       "@simplewebauthn/browser": ^9.0.1
@@ -5583,7 +5583,7 @@ packages:
       nodemailer:
         optional: true
     dependencies:
-      "@auth/core": 0.28.0
+      "@auth/core": 0.28.1
       next: 14.1.4(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
     dev: true
