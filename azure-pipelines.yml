@@ -24,8 +24,12 @@ stages:
         steps:
           - task: SonarQubePrepare@5
             inputs:
-              SonarQube: 'Joe_Localhost_SonarQube_Service'
-              scannerMode: 'Other'
+              SonarQube: 'Joe_local_sonar'
+              scannerMode: 'CLI'
+              configMode: 'manual'
+              cliProjectKey: 'PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5'
+              cliSources: '.'
+          
 
           - task: SonarQubeAnalyze@5
             inputs:
