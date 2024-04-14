@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - main
+  - test-azure-pipelines
 
 resources:
   - repo: self
@@ -26,9 +26,8 @@ stages:
             inputs:
               SonarQube: 'Joe_local_sonar'
               scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: 'PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5'
-              cliSources: '.'
+              configMode: 'file'
+    
           - task: SonarQubeAnalyze@5
             inputs:
               jdkversion: 'JAVA_HOME_17_X64'
