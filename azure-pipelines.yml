@@ -30,10 +30,14 @@ stages:
               versionSpec: '20.x'
               checkLatest: true
 
-          - script: |
-             npm install
-             npm run test -- --coverage --reporters=default --reporters=jest-junit
-            displayName: 'Run Tests with Coverage'
+          - script: npm install
+            displayName: 'Install dependencies'
+
+          - script: npm run ci:lint
+            displayName: 'Lint Check'
+
+          - script: npm run ci:test
+            displayName: 'Run Tests and Generate Coverage'
 
           - task: PublishTestResults@2
             condition: succeededOrFailed()
