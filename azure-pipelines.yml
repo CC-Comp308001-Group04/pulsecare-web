@@ -51,7 +51,8 @@ stages:
             condition: succeededOrFailed()
             inputs:
               codeCoverageTool: 'Cobertura'
-              summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
+              summaryFileLocation: '**/cobertura-coverage.xml'
+              #summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
             displayName: 'Publish Code Coverage Results'
  
           # - task: PublishCodeCoverageResults@1
