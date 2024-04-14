@@ -32,7 +32,7 @@ stages:
           - script: |
               npm install
               npm run build
-              npm run test
+              npm run test:ci
             displayName: 'Run Tests with Coverage'
           - task: PublishTestResults@2
             inputs:
