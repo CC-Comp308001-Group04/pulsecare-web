@@ -37,7 +37,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: 'TEST-REULTS.xml'
+              testResultsFiles: '**\*.xml'
               failTaskOnMissingResultsFile: true
           # - script: |
           #     echo "Listing test results..."
@@ -46,12 +46,6 @@ stages:
           #     dir coverage
           #   displayName: 'List Test Results and Coverage Files'
 
-          - task: PublishTestResults@2
-            condition: succeededOrFailed()
-            inputs:
-              testResultsFiles: '**/test-results/TEST-results.xml'
-              testRunTitle: 'Publish Test Results'
-            displayName: 'Publish Test Results'
 
           - task: PublishCodeCoverageResults@1
             condition: succeededOrFailed()
