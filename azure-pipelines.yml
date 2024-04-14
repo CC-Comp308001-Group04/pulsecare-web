@@ -32,12 +32,12 @@ stages:
           - script: |
               npm install
               npm run build
-              npm run test:ci
+              npm run test
             displayName: 'Run Tests with Coverage'
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: '**/test-results/TEST-results.xml'
+              testResultsFiles: '**/TEST-*.xml'
               failTaskOnMissingResultsFile: true
           # - script: |
           #     echo "Listing test results..."
