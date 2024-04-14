@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "next lint --fix",
     "lint-staged": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "ci:test": "jest --ci --coverage",
+    "ci:lint": "next lint"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
