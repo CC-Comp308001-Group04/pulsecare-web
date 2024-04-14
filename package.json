@@ -9,8 +9,7 @@
     "start": "next start",
     "lint": "next lint --fix",
     "lint-staged": "lint-staged",
-    "prepare": "husky",
-     "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage",
+    "prepare": "husky"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
@@ -46,7 +45,6 @@
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.77",
     "@types/react-dom": "^18.2.25",
-    "@types/jest": "^24.0.0",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "autoprefixer": "^10.4.19",
