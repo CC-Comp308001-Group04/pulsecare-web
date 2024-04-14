@@ -33,19 +33,13 @@ stages:
               npm install
               npm run build
               npm run test:ci
-              npx jest -- --coverage
+              ./node_modules/.bin/jest --ci --coverage --reporters=default --reporters=jest-junit
             displayName: 'Run Tests with Coverage'
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
               testResultsFiles: '**/TEST-*.xml'
               failTaskOnMissingResultsFile: true
-          # - script: |
-          #     echo "Listing test results..."
-          #     dir test-results
-          #     echo "Listing coverage results..."
-          #     dir coverage
-          #   displayName: 'List Test Results and Coverage Files'
 
         
           - task: PublishCodeCoverageResults@1
@@ -57,7 +51,7 @@ stages:
             displayName: 'Publish Code Coverage Results'
 
           - script: |
-              dir "$(System.DefaultWorkingDirectory)\coverage"
+              dir "$(System.DefaultWorkingDirectory)/coverage"
             displayName: 'List Coverage Directory Contents'
 
           # - task: PublishCodeCoverageResults@1
