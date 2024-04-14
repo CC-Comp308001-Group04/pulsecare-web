@@ -34,13 +34,18 @@ stages:
               npm run build
               npm run test:ci
             displayName: 'Run Tests with Coverage'
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: '**/TEST-*.xml'
+              failTaskOnMissingResultsFile: true
+          # - script: |
+          #     echo "Listing test results..."
+          #     dir test-results
+          #     echo "Listing coverage results..."
+          #     dir coverage
+          #   displayName: 'List Test Results and Coverage Files'
 
-          - script: |
-              echo "Listing test results..."
-              dir test-results
-              echo "Listing coverage results..."
-              dir coverage
-            displayName: 'List Test Results and Coverage Files'
           - task: PublishTestResults@2
             condition: succeededOrFailed()
             inputs:
