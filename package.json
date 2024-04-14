@@ -10,8 +10,7 @@
     "lint": "next lint --fix",
     "lint-staged": "lint-staged",
     "prepare": "husky",
-    "ci:test": "jest --ci --coverage",
-    "ci:lint": "next lint"
+     "test:ci": "jest --ci --reporters=default --reporters=jest-junit --coverage",
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
