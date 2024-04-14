@@ -33,6 +33,7 @@ stages:
               npm install
               npm run build
               npm run test:ci
+              npx jest -- --coverage
             displayName: 'Run Tests with Coverage'
           - task: PublishTestResults@2
             inputs:
