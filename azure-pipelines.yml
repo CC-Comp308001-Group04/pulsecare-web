@@ -37,7 +37,7 @@ stages:
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: '**/TestResults/Test-*.xml'
+              testResultsFiles: '**/test-results/TEST-results.xml'
               failTaskOnMissingResultsFile: true
           # - script: |
           #     echo "Listing test results..."
