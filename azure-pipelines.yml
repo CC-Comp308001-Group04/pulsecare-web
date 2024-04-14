@@ -44,12 +44,12 @@ stages:
             inputs:
               testResultsFormat: 'JUnit'
               testResultsFiles: '**/TEST-*.xml'
-          - task: PublishCodeCoverageResults@1
-            inputs:
-              codeCoverageTool: 'Cobertura'
-              summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml' # the location of the coverage summary file
-              reportDirectory: '$(System.DefaultWorkingDirectory)/coverage' # the directory where detailed coverage reports are
-              failIfCoverageEmpty: true # optional: fail the pipeline if no coverage data is found
+          # - task: PublishCodeCoverageResults@1
+          #   inputs:
+          #     codeCoverageTool: 'Cobertura'
+          #     summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml' # the location of the coverage summary file
+          #     reportDirectory: '$(System.DefaultWorkingDirectory)/coverage' # the directory where detailed coverage reports are
+          #     failIfCoverageEmpty: true # optional: fail the pipeline if no coverage data is found
           
           # - task: SonarQubePrepare@5
           #   inputs:
