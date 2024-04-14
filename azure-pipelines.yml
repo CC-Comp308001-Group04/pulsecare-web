@@ -37,9 +37,9 @@ stages:
 
           - script: |
               echo "Listing test results..."
-              dir -la test-results/
+              dir test-results
               echo "Listing coverage results..."
-              dir -la coverage/
+              dir coverage
             displayName: 'List Test Results and Coverage Files'
           - task: PublishTestResults@2
             condition: succeededOrFailed()
