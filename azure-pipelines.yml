@@ -3,7 +3,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - test-azure-pipelines
+  - main
 
 resources:
   - repo: self
@@ -54,7 +54,11 @@ stages:
               summaryFileLocation: '**/cobertura-coverage.xml'
               #summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
             displayName: 'Publish Code Coverage Results'
- 
+
+          - script: |
+              dir "$(System.DefaultWorkingDirectory)\coverage"
+            displayName: 'List Coverage Directory Contents'
+
           # - task: PublishCodeCoverageResults@1
           #   inputs:
           #     codeCoverageTool: 'Cobertura'
