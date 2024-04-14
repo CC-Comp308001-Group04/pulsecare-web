@@ -33,7 +33,6 @@ stages:
               npm install
               npm run build
               npm run test:ci
-              ./node_modules/.bin/jest --ci --coverage --reporters=default --reporters=jest-junit
             displayName: 'Run Tests with Coverage'
           - task: PublishTestResults@2
             inputs:
@@ -46,7 +45,7 @@ stages:
             condition: succeededOrFailed()
             inputs:
               codeCoverageTool: 'Cobertura'
-              summaryFileLocation: '**/cobertura-coverage.xml'
+              summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
               #summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'
             displayName: 'Publish Code Coverage Results'
 
