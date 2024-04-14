@@ -31,7 +31,8 @@ stages:
               checkLatest: true
           - script: |
               npm install
-              npm run test -- --coverage --reporters=default --reporters=jest-junit
+              npm run build
+              npm test
             displayName: 'Run Tests with Coverage'
 
           # - task: PublishTestResults@2
