@@ -52,33 +52,6 @@ stages:
               dir "$(System.DefaultWorkingDirectory)/coverage"
             displayName: 'List Coverage Directory Contents'
 
-          # - task: PublishCodeCoverageResults@1
-          #   inputs:
-          #     codeCoverageTool: 'Cobertura'
-          #     summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml' # the location of the coverage summary file
-          #     reportDirectory: '$(System.DefaultWorkingDirectory)/coverage' # the directory where detailed coverage reports are
-          #     failIfCoverageEmpty: true # optional: fail the pipeline if no coverage data is found
-          
-          # - task: SonarQubePrepare@5
-          #   inputs:
-          #     SonarQube: 'Joe_local_sonar'
-          #     scannerMode: 'CLI'
-          #     configMode: 'file'
-          # - task: SonarQubePrepare@5
-          #   inputs:
-          #     SonarQube: 'Joe_local_sonar'
-          #     scannerMode: 'CLI'
-          #     configMode: 'manual'
-          #     cliProjectKey: 'PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5'
-          #     cliSources: '.'
-          # - task: SonarQubeAnalyze@5
-          #   inputs:
-          #     jdkversion: 'JAVA_HOME_17_X64'
-
-          # - task: SonarQubePublish@5
-          #   inputs:
-          #     pollingTimeoutSec: '300'
-            
           
           # - task: DockerCompose@0
           #   inputs:
@@ -89,27 +62,26 @@ stages:
           #     additionalImageTags: $(Build.BuildId)
           #     includeLatestTag: true
 
-
-          # - task: Docker@2
-          #   displayName: Build an image
-          #   inputs:
-          #     containerRegistry: "Github Container Registry"
-          #     repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
-          #     command: "build"
-          #     Dockerfile: "docker/Dockerfile"
-          #     buildContext: "."
-
-          #     tags: "$(tag)"
-          #     arguments: "--target=production --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_URL=$(AUTH_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
-          # - task: Docker@2
-          #   displayName: Push an image
-          #   inputs:
-          #     containerRegistry: "Github Container Registry"
-          #     repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
-          #     command: "push"
-          #     Dockerfile: "docker/Dockerfile"
-          #     tags: "$(tag)"
-          #     arguments: ""
+          - task: Docker@2
+            displayName: Build an image
+            inputs:
+              containerRegistry: "Github Container Registry"
+              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              command: "build"
+              Dockerfile: "docker/Dockerfile"
+              buildContext: "."
+              tags: "$(tag)"
+              arguments: "--target=production --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_URL=$(AUTH_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
+         
+          - task: Docker@2
+            displayName: Push an image
+            inputs:
+              containerRegistry: "Github Container Registry"
+              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              command: "push"
+              Dockerfile: "docker/Dockerfile"
+              tags: "$(tag)"
+              arguments: ""
 
 
         # # - task: Docker@2
