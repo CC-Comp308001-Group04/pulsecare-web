@@ -34,12 +34,12 @@ stages:
               npm run build
               npm run test:ci
             displayName: 'Run Tests with Coverage'
-            
+
           - script: |
               echo "Listing test results..."
-              ls -la test-results/
+              dir -la test-results/
               echo "Listing coverage results..."
-              ls -la coverage/
+              dir -la coverage/
             displayName: 'List Test Results and Coverage Files'
           - task: PublishTestResults@2
             condition: succeededOrFailed()
