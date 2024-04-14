@@ -22,12 +22,18 @@ stages:
         pool:
           name: default
         steps:
+          # - task: SonarQubePrepare@5
+          #   inputs:
+          #     SonarQube: 'Joe_local_sonar'
+          #     scannerMode: 'CLI'
+          #     configMode: 'file'
           - task: SonarQubePrepare@5
             inputs:
               SonarQube: 'Joe_local_sonar'
               scannerMode: 'CLI'
-              configMode: 'file'
-    
+              configMode: 'manual'
+              cliProjectKey: 'PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5'
+              cliSources: '.'
           - task: SonarQubeAnalyze@5
             inputs:
               jdkversion: 'JAVA_HOME_17_X64'
@@ -35,6 +41,8 @@ stages:
           - task: SonarQubePublish@5
             inputs:
               pollingTimeoutSec: '300'
+            
+          
           # - task: DockerCompose@0
           #   inputs:
           #     containerregistrytype: "Container Registry"
