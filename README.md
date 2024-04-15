@@ -24,7 +24,7 @@
 <h3 align="center">PulseCare</h3>
 
   <p align="center">
-    PulseCare is an app that connects patients with nurses and provides a platform for them to communicate and share information.
+    PulseCare is the app that connects patients with nurses and provides a platform for them to communicate and share information.
     <br />
     <a href="https://github.com/CC-Comp308001-Group04/pulsecare-web"><strong>Explore the docs »</strong></a>
     <br />
