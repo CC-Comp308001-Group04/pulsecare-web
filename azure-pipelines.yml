@@ -44,10 +44,6 @@ stages:
               summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
             displayName: "Publish Code Coverage Results"
 
-          - script: |
-              dir "$(System.DefaultWorkingDirectory)/coverage"
-            displayName: "List Coverage Directory Contents"
-
           # - task: DockerCompose@0
           #   inputs:
           #     containerregistrytype: "Container Registry"
