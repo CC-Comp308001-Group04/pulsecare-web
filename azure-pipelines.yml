@@ -141,6 +141,16 @@ stages:
 
   - stage: deployToDev
     jobs:
+      - job: Deploy_to_Dev
+        displayName: Download Artifact
+        steps:
+          - download: current
+            artifact: PulseCare-Web_Image
+            displayName: "Download Artifact"
+
+          - script: dir $(Pipeline.Workspace)
+            displayName: "List Files in Workspace"
+
       - deployment: DeployWeb
         displayName: deploy Web App
         # creates an environment if it doesn't exist
