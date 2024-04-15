@@ -112,10 +112,10 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)
             displayName: "List Files in Artifact Directory"
 
-          - script: dir $(Build.ArtifactStagingDirectory)/pulsecare-web
+          - script: dir $(Build.ArtifactStagingDirectory)/pulsecare-webapp
             displayName: "List Files in Artifact Directory"
 
-          - publish: $(Build.ArtifactStagingDirectory)/pulsecare-web
+          - publish: $(Build.ArtifactStagingDirectory)/pulsecare-webapp
             artifact: "PulseCare-Web_Image"
             displayName: "Publish Artifact to Pipeline"
 
@@ -142,7 +142,7 @@ stages:
         # #     action: 'Run a Docker Compose command'
         # #     arguments: '--profile=prod'
 
-  - stage: deployToDev
+  - stage: DEV
     jobs:
       - job: Deploy_to_Dev
         displayName: Download Artifact
@@ -167,8 +167,8 @@ stages:
               steps:
                 - script: echo Hello world
 
-  - stage: deployToUat
-    dependsOn: deployToDev
+  - stage: QAT
+    dependsOn: DEV
     jobs:
       - deployment: DeployWeb
         displayName: deploy Web App
@@ -181,8 +181,8 @@ stages:
               steps:
                 - script: echo Hello world
 
-  - stage: DeployToStaging
-    dependsOn: deployToUat
+  - stage: STAGING
+    dependsOn: QAT
     condition: succeeded()
     jobs:
       - job: DeployStaging
@@ -190,8 +190,8 @@ stages:
           - script: echo "Deploying to Staging environment (mock step)"
             displayName: "Deploy to Staging Environment"
 
-  - stage: DeployToProduction
-    dependsOn: DeployToStaging
+  - stage: PROD
+    dependsOn: STAGING
     condition: succeeded()
     jobs:
       - job: DeployProduction
