@@ -112,6 +112,10 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)
             displayName: "List Files in Artifact Directory"
 
+          - publish: $(Build.ArtifactStagingDirectory)
+            artifact: "PulseCare-Web_Image"
+            displayName: "Publish Artifact to Pipeline"
+
           - task: Docker@2
             displayName: Push an image
             inputs:
@@ -121,10 +125,6 @@ stages:
               Dockerfile: "docker/Dockerfile"
               tags: "$(tag)"
               arguments: ""
-
-          - publish: $(Build.ArtifactStagingDirectory)
-            artifact: "PulseCare-Web_Image"
-            displayName: "Publish Artifact to Pipeline"
 
         # # - task: Docker@2
         # #   inputs:
@@ -152,6 +152,7 @@ stages:
             displayName: "List Files in Workspace"
 
       - deployment: DeployWeb
+
         dependsOn: Deploy_to_Dev
         displayName: deploy Web App
         # creates an environment if it doesn't exist
