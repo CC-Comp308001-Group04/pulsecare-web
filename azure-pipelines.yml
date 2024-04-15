@@ -112,8 +112,9 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)
             displayName: "List Files in Artifact Directory"
 
-          - script: dir $(Build.ArtifactStagingDirectory)/pulsecare-webapp
+          - script: dir $(Build.ArtifactStagingDirectory)\pulsecare-webapp
             displayName: "List Files in Artifact Directory"
+            continueOnError: "true"
 
           - publish: $(Build.ArtifactStagingDirectory)/pulsecare-webapp
             artifact: "PulseCare-Web_Image"
