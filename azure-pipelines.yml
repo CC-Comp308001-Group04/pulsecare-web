@@ -67,7 +67,7 @@ stages:
               cliSources: '.'
           - task: SonarQubeAnalyze@5
             inputs:
-              jdkversion: 'JAVA_HOME_17_X64'
+              jdkversion: 'JAVA_HOME'
           - task: Docker@2
             displayName: Build an image
             inputs:
