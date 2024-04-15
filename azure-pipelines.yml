@@ -20,8 +20,7 @@ stages:
       - job: Build
         displayName: Build
         # Define agent to run the pipeline
-        pool:
-          name: default
+
         steps:
           - task: NodeTool@0
             inputs:
