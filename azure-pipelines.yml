@@ -84,6 +84,9 @@ stages:
               jdkversion: "JAVA_HOME"
             continueOnError: true
 
+          - script: echo $(Build.ArtifactStagingDirectory)
+            displayName: "Debug"
+
   - stage: Build
     jobs:
       - job: Build
@@ -103,10 +106,10 @@ stages:
               tags: "$(tag)"
               arguments: "--target=production --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_URL=$(AUTH_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
 
-          - script: ls
+          - script: dir
             displayName: "List Files"
 
-          - script: ls $(Build.ArtifactStagingDirectory)
+          - script: dir $(Build.ArtifactStagingDirectory)
             displayName: "List Files in Artifact Directory"
 
           - task: Docker@2
@@ -121,7 +124,7 @@ stages:
 
           - publish: $(Build.ArtifactStagingDirectory)
             artifact: "PulseCare-Web_Image"
-            displayName: "Publish Artifact"
+            displayName: "Publish Artifact to Pipeline"
 
         # # - task: Docker@2
         # #   inputs:
