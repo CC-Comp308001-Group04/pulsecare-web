@@ -27,10 +27,19 @@ stages:
               versionSource: "spec"
               versionSpec: "20.x"
               checkLatest: true
+            displayName: "Run Tests with Coverage"
           - script: |
               npm install
               npm run test:ci
-            displayName: "Run Tests with Coverage"
+              ls -la
+
+          - task: Bash@3
+            inputs:
+              targetType: "inline"
+              script: |
+                # Write your commands here
+                ls __tests__
+          # - task: Do
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: "JUnit"
