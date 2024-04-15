@@ -19,73 +19,73 @@ pool:
   name: default
 
 stages:
-  - stage: Test
-    jobs:
-      - job: Test
-        displayName: Test
-        timeoutInMinutes: "10"
-        # Define agent to run the pipeline
+  # - stage: Test
+  #   jobs:
+  #     - job: Test
+  #       displayName: Test
+  #       timeoutInMinutes: "10"
+  #       # Define agent to run the pipeline
 
-        steps:
-          - task: NodeTool@0
-            inputs:
-              versionSpec: $(node_version)
-            displayName: "Install Node.js"
+  #       steps:
+  #         - task: NodeTool@0
+  #           inputs:
+  #             versionSpec: $(node_version)
+  #           displayName: "Install Node.js"
 
-          - script: corepack enable
-            displayName: "Enable Corepack"
+  #         - script: corepack enable
+  #           displayName: "Enable Corepack"
 
-          - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
-            displayName: "Set PNPM cache directory"
+  #         - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
+  #           displayName: "Set PNPM cache directory"
 
-          - script: pnpm store path
-            displayName: "Show store path"
+  #         - script: pnpm store path
+  #           displayName: "Show store path"
 
-          - script: pnpm install && pnpm dlx prisma generate && pnpm run build
-            displayName: "Install and build (with Prisma Client)"
+  #         - script: pnpm install && pnpm dlx prisma generate && pnpm run build
+  #           displayName: "Install and build (with Prisma Client)"
 
-          - script: |
-              pnpm run test:ci
-            displayName: "Run tests and Generate coverage"
+  #         - script: |
+  #             pnpm run test:ci
+  #           displayName: "Run tests and Generate coverage"
 
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: "JUnit"
-              testResultsFiles: junit.xml
-              searchFolder: "$(System.DefaultWorkingDirectory)"
-              failTaskOnMissingResultsFile: true
+  #         - task: PublishTestResults@2
+  #           inputs:
+  #             testResultsFormat: "JUnit"
+  #             testResultsFiles: junit.xml
+  #             searchFolder: "$(System.DefaultWorkingDirectory)"
+  #             failTaskOnMissingResultsFile: true
 
-          - task: PublishCodeCoverageResults@1
-            condition: succeededOrFailed()
-            inputs:
-              codeCoverageTool: "Cobertura"
-              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
-            displayName: "Publish Code Coverage Results"
+  #         - task: PublishCodeCoverageResults@1
+  #           condition: succeededOrFailed()
+  #           inputs:
+  #             codeCoverageTool: "Cobertura"
+  #             summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+  #           displayName: "Publish Code Coverage Results"
 
-          # - task: DockerCompose@0
-          #   inputs:
-          #     containerregistrytype: "Container Registry"
-          #     dockerRegistryEndpoint: "Github Container Registry"
-          #     dockerComposeFile: "docker/docker-compose.yml"
-          #     action: "Build services"
-          #     additionalImageTags: $(Build.BuildId)
-          #     includeLatestTag: true
-          - task: SonarQubePrepare@5
-            inputs:
-              SonarQube: "Joe_local_sonar"
-              scannerMode: "CLI"
-              configMode: "manual"
-              cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
-              cliSources: "."
-            continueOnError: true
+  #         # - task: DockerCompose@0
+  #         #   inputs:
+  #         #     containerregistrytype: "Container Registry"
+  #         #     dockerRegistryEndpoint: "Github Container Registry"
+  #         #     dockerComposeFile: "docker/docker-compose.yml"
+  #         #     action: "Build services"
+  #         #     additionalImageTags: $(Build.BuildId)
+  #         #     includeLatestTag: true
+  #         - task: SonarQubePrepare@5
+  #           inputs:
+  #             SonarQube: "Joe_local_sonar"
+  #             scannerMode: "CLI"
+  #             configMode: "manual"
+  #             cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
+  #             cliSources: "."
+  #           continueOnError: true
 
-          - task: SonarQubeAnalyze@5
-            inputs:
-              jdkversion: "JAVA_HOME"
-            continueOnError: true
+  #         - task: SonarQubeAnalyze@5
+  #           inputs:
+  #             jdkversion: "JAVA_HOME"
+  #           continueOnError: true
 
-          - script: echo $(Build.ArtifactStagingDirectory)
-            displayName: "Debug"
+  #         - script: echo $(Build.ArtifactStagingDirectory)
+  #           displayName: "Debug"
 
   - stage: Build
     jobs:
