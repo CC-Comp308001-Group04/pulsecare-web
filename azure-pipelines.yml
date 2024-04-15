@@ -116,7 +116,7 @@ stages:
             displayName: "List Files in Artifact Directory"
             continueOnError: "true"
 
-          - publish: $(Build.ArtifactStagingDirectory)/pulsecare-webapp
+          - publish: $(Build.ArtifactStagingDirectory)\pulsecare-webapp
             artifact: "PulseCare-Web_Image"
             displayName: "Publish Artifact to Pipeline"
 
