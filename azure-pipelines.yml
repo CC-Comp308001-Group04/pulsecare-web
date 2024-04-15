@@ -11,7 +11,8 @@ resources:
 variables:
   tag: "$(Build.BuildId)"
   DOCKER_BUILDKIT: 1
-
+pool:
+  name: default
 stages:
   - stage: Build
     displayName: Build image
@@ -102,3 +103,38 @@ stages:
         # #     dockerComposeFile: '**/docker/docker-compose.yml'
         # #     action: 'Run a Docker Compose command'
         # #     arguments: '--profile=prod'
+  - stage: DeployToDev
+    dependsOn: Build
+    condition: succeeded()
+    jobs:
+    - job: DeployDev
+      steps:
+      - script: echo "Deploying to Dev environment (mock step)"
+        displayName: 'Deploy to Development Environment'
+
+  - stage: DeployToQAT
+    dependsOn: DeployToDev
+    condition: succeeded()
+    jobs:
+    - job: DeployQAT
+      steps:
+      - script: echo "Deploying to QAT environment (mock step)"
+        displayName: 'Deploy to QAT Environment'
+
+  - stage: DeployToStaging
+    dependsOn: DeployToQAT
+    condition: succeeded()
+    jobs:
+    - job: DeployStaging
+      steps:
+      - script: echo "Deploying to Staging environment (mock step)"
+        displayName: 'Deploy to Staging Environment'
+
+  - stage: DeployToProduction
+    dependsOn: DeployToStaging
+    condition: succeeded()
+    jobs:
+    - job: DeployProduction
+      steps:
+      - script: echo "Deploying to Production environment (mock step)"
+        displayName: 'Deploy to Production Environment'
