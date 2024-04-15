@@ -34,11 +34,13 @@ stages:
             displayName: "Enable Corepack"
 
           - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
+            displayName: "Set PNPM cache directory"
 
           - script: pnpm store path
+            displayName: "Show store path"
 
-          - script: pnpm install && pnpm run build
-            displayName: "Install and build"
+          - script: pnpm install && pnpm dlx prisma generate && pnpm run build
+            displayName: "Install and build (with Prisma Client)"
 
           - script: |
               pnpm run test:ci
