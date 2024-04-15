@@ -6,7 +6,7 @@
 .pnp.js
 .yarn/install-state.gz
 
-.swc/
+
 
 # next.js
 /.next/
@@ -14,7 +14,11 @@
 
 # production
 /build
-/coverage/
+
+# testing
+junit.xml
+coverage
+.swc/
 
 # misc
 .DS_Store
