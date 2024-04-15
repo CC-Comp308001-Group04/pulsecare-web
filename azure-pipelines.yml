@@ -60,14 +60,14 @@ stages:
           #     includeLatestTag: true
           - task: SonarQubePrepare@5
             inputs:
-              SonarQube: 'Joe_local_sonar'
-              scannerMode: 'CLI'
-              configMode: 'manual'
-              cliProjectKey: 'PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5'
-              cliSources: '.'
+              SonarQube: "Joe_local_sonar"
+              scannerMode: "CLI"
+              configMode: "manual"
+              cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
+              cliSources: "."
           - task: SonarQubeAnalyze@5
             inputs:
-              jdkversion: 'JAVA_HOME'
+              jdkversion: "JAVA_HOME"
           - task: Docker@2
             displayName: Build an image
             inputs:
@@ -106,34 +106,47 @@ stages:
     dependsOn: Build
     condition: succeeded()
     jobs:
-    - job: DeployDev
-      steps:
-      - script: echo "Deploying to Dev environment (mock step)"
-        displayName: 'Deploy to Development Environment'
+      - job: DeployDev
+        steps:
+          - script: echo "Deploying to Dev environment (mock step)"
+            displayName: "Deploy to Development Environment"
+
+  - stage: deploy
+    jobs:
+      - deployment: DeployWeb
+        displayName: deploy Web App
+        # creates an environment if it doesn't exist
+        environment:
+          name: "dev"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - script: echo Hello world
 
   - stage: DeployToQAT
     dependsOn: DeployToDev
     condition: succeeded()
     jobs:
-    - job: DeployQAT
-      steps:
-      - script: echo "Deploying to QAT environment (mock step)"
-        displayName: 'Deploy to QAT Environment'
+      - job: DeployQAT
+        steps:
+          - script: echo "Deploying to QAT environment (mock step)"
+            displayName: "Deploy to QAT Environment"
 
   - stage: DeployToStaging
     dependsOn: DeployToQAT
     condition: succeeded()
     jobs:
-    - job: DeployStaging
-      steps:
-      - script: echo "Deploying to Staging environment (mock step)"
-        displayName: 'Deploy to Staging Environment'
+      - job: DeployStaging
+        steps:
+          - script: echo "Deploying to Staging environment (mock step)"
+            displayName: "Deploy to Staging Environment"
 
   - stage: DeployToProduction
     dependsOn: DeployToStaging
     condition: succeeded()
     jobs:
-    - job: DeployProduction
-      steps:
-      - script: echo "Deploying to Production environment (mock step)"
-        displayName: 'Deploy to Production Environment'
+      - job: DeployProduction
+        steps:
+          - script: echo "Deploying to Production environment (mock step)"
+            displayName: "Deploy to Production Environment"
