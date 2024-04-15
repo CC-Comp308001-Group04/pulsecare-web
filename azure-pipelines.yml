@@ -102,14 +102,6 @@ stages:
         # #     dockerComposeFile: '**/docker/docker-compose.yml'
         # #     action: 'Run a Docker Compose command'
         # #     arguments: '--profile=prod'
-  - stage: DeployToDev
-    dependsOn: Build
-    condition: succeeded()
-    jobs:
-      - job: DeployDev
-        steps:
-          - script: echo "Deploying to Dev environment (mock step)"
-            displayName: "Deploy to Development Environment"
 
   - stage: deployToDev
     jobs:
@@ -123,6 +115,7 @@ stages:
             deploy:
               steps:
                 - script: echo Hello world
+
   - stage: deployToUat
     dependsOn: deployToDev
     jobs:
@@ -137,17 +130,8 @@ stages:
               steps:
                 - script: echo Hello world
 
-  - stage: DeployToQAT
-    dependsOn: DeployToDev
-    condition: succeeded()
-    jobs:
-      - job: DeployQAT
-        steps:
-          - script: echo "Deploying to QAT environment (mock step)"
-            displayName: "Deploy to QAT Environment"
-
   - stage: DeployToStaging
-    dependsOn: DeployToQAT
+    dependsOn: deployToUat
     condition: succeeded()
     jobs:
       - job: DeployStaging
