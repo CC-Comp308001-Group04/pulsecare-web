@@ -11,11 +11,14 @@ resources:
 variables:
   tag: "$(Build.BuildId)"
   DOCKER_BUILDKIT: 1
+  PNPM_CACHE_FOLDER: $(Pipeline.Workspace)/.pnpm-store
+  NEXT_TELEMETRY_DISABLED: "1"
+  node_version: ^18.17.0
+
 pool:
   name: default
 stages:
-  - stage: Build
-    displayName: Build image
+  - stage: Test
     jobs:
       - job: Build
         displayName: Build
@@ -24,17 +27,22 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSource: "spec"
-              versionSpec: "20.x"
-              checkLatest: true
+              versionSpec: $(node_version)
+            displayName: "Install Node.js"
+
+          - script: corepack enable
+            displayName: "Enable Corepack"
+
+          - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
+
+          - script: pnpm store path
+
+          - script: pnpm install && pnpm run build
+            displayName: "Install and build"
 
           - script: |
-              npm install
-
-            displayName: "Run Install"
-          - script: |
-              npm run test:ci
-            displayName: "Run Tests with Coverage"
+              pnpm run test:ci
+            displayName: "Run tests and Generate coverage"
 
           - task: PublishTestResults@2
             inputs:
@@ -65,11 +73,15 @@ stages:
               configMode: "manual"
               cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
               cliSources: "."
+            continueOnError: true
+
           - task: SonarQubeAnalyze@5
             inputs:
               jdkversion: "JAVA_HOME"
+            continueOnError: true
+
           - task: Docker@2
-            displayName: Build an image
+            displayName: Build Image
             inputs:
               containerRegistry: "Github Container Registry"
               repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
