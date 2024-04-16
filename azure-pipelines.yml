@@ -119,6 +119,7 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)\pulsecare-webapp
             artifact: "PulseCare-Web_Image"
             displayName: "Publish Artifact to Pipeline"
+            continueOnError: "true"
 
           - task: Docker@2
             displayName: Push an image
