@@ -5,7 +5,7 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV NEXT_TELEMETRY_DISABLED 1
 # enbable corepack to use pnpm
 RUN corepack enable
-COPY . /pulsecare-webapp
+# COPY . /pulsecare-webapp
 WORKDIR /pulsecare-webapp
 # Exposing port for when NOT running with docker-compose
 EXPOSE 3000
@@ -17,6 +17,9 @@ ARG AUTH_GOOGLE_ID
 ARG AUTH_GOOGLE_SECRET
 
 FROM base AS deps
+WORKDIR /pulsecare-webapp
+
+COPY package.json pnpm-lock.yaml* ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 # Trying to freshly install prisma client every time as suggested here: https://github.com/prisma/prisma/issues/7234#issuecomment-846606919
 RUN pnpm dlx prisma generate --schema=prisma/schema.prisma
@@ -28,7 +31,9 @@ ENV PORT 3000
 CMD ["pnpm", "dev"]
 
 
-FROM deps as production-bundle
+FROM base as builder
+COPY --from=deps /pulsecare-webapp/node_modules ./node_modules
+COPY . .
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 ENV DATABASE_URL=$DATABASE_URL  
@@ -41,6 +46,20 @@ RUN echo $AUTH_URL
 RUN echo $AUTH_SECRET
 RUN pnpm build
 
-FROM production-bundle as production
-CMD ["pnpm", "start"]
+FROM base as runner
+WORKDIR /pulsecare-webapp
+
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
+
+COPY --from=builder /pulsecare-webapp/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /pulsecare-webapp/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /pulsecare-webapp/.next/static ./.next/static
+
+USER nextjs
+
+CMD node server.js
 
