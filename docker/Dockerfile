@@ -36,7 +36,9 @@ COPY --from=deps /pulsecare-web/package.json ./package.json
 # COPY tsconfig.json .
 COPY . .
 ARG AUTH_SECRET
+RUN echo "arg is $AUTH_SECRET"
 ENV AUTH_SECRET=$AUTH_SECRET
+RUN echo $AUTH_SECRET
 
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
