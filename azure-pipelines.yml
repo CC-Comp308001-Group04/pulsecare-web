@@ -115,13 +115,20 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)\pulsecare-web
             displayName: "List Files in Artifact Directory"
             continueOnError: "true"
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: "$(Pipeline.Workspace)"
+              artifact: "pulsecare-web"
+              publishLocation: "pipeline"
+            continueOnError: true
 
           - task: PublishBuildArtifacts@1
             inputs:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)\pulsecare-web'
               ArtifactName: "pulsecare-web"
               publishLocation: "Container"
-              StoreAsTar: true
+              # StoreAsTar: true
+            continueOnError: true
 
           - publish: $(Build.ArtifactStagingDirectory)\pulsecare-web
             artifact: "PulseCare-Web_Image"
