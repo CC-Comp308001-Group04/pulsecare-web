@@ -98,7 +98,7 @@ stages:
             displayName: Build Image
             inputs:
               containerRegistry: "Github Container Registry"
-              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              repository: CC-Comp308001-Group04/pulsecare-web
               command: "build"
               Dockerfile: "docker/Dockerfile"
               buildContext: "."
@@ -115,6 +115,7 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)\pulsecare-web
             displayName: "List Files in Artifact Directory"
             continueOnError: "true"
+
           - task: PublishPipelineArtifact@1
             inputs:
               targetPath: "$(Pipeline.Workspace)"
@@ -139,7 +140,7 @@ stages:
             displayName: Push an image
             inputs:
               containerRegistry: "Github Container Registry"
-              repository: ghrc.io/CC-Comp308001-Group04/pulsecare-web
+              repository: CC-Comp308001-Group04/pulsecare-web
               command: "push"
               Dockerfile: "docker/Dockerfile"
               tags: "$(tag)"
