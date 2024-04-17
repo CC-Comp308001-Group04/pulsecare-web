@@ -26,8 +26,8 @@ ENV PORT 3000
 CMD ["pnpm", "dev"]
 
 
-FROM base as builder
-WORKDIR /pulsecare-web
+  FROM base as builder
+  WORKDIR /pulsecare-web
 COPY --from=deps /pulsecare-web/node_modules ./node_modules
 COPY --from=deps /pulsecare-web/package.json ./package.json
 # COPY src ./src

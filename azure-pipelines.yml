@@ -104,9 +104,18 @@ stages:
               buildContext: "."
 
               tags: "$(tag)"
-              arguments: "--target=runner --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
+              arguments: "--target=runner --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET) -o $(Build.ArtifactStagingDirectory)/pulsecare-web"
+
+          # - task: Bash@3
+          #   displayName: Save Docker Image
+          #   inputs:
+          #     targetType: 'inline'
+          #     script: |
+          #       docker save MY_DOCKER_REPO_IMAGE_NAME:$(tag) -o $(Pipeline.Workspace)/MY_IMAGE_FILE.tar
 
           - script: dir
+            displayName: "List Files"
+          - script: dir $(Pipeline.Workspace)
             displayName: "List Files"
 
           - script: dir $(Build.ArtifactStagingDirectory)
@@ -115,6 +124,10 @@ stages:
           - script: dir $(Build.ArtifactStagingDirectory)\pulsecare-web
             displayName: "List Files in Artifact Directory"
             continueOnError: "true"
+
+          - publish: "$(Build.ArtifactStagingDirectory)/pulsecare-web"
+            displayName: "Publish Pulsecare-Image"
+            artifact: dropScripts
 
           - task: PublishPipelineArtifact@1
             inputs:
@@ -125,7 +138,7 @@ stages:
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: '$(Build.ArtifactStagingDirectory)\pulsecare-web'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)\pulsecare-web\pulsecare-web'
               ArtifactName: "pulsecare-web"
               publishLocation: "Container"
               # StoreAsTar: true
@@ -144,7 +157,6 @@ stages:
               command: "push"
               Dockerfile: "docker/Dockerfile"
               tags: "$(tag)"
-              arguments: ""
 
         # # - task: Docker@2
         # #   inputs:
