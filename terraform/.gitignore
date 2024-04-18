@@ -1,0 +1,21 @@
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.backup
+
+# Exclude lock file depending on your workflow
+# .terraform.lock.hcl
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include tfvars files that contain sensitive information, such as
+# deployment variables, shouldn't be version controlled
+*.tfvars
+*.tfvars.json
+norse-voice-*.json
