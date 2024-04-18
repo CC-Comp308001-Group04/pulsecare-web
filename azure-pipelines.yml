@@ -106,12 +106,12 @@ stages:
               tags: "$(tag)"
               arguments: "--target=runner --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET) -o $(Build.ArtifactStagingDirectory)/pulsecare-web"
 
-          # - task: Bash@3
-          #   displayName: Save Docker Image
-          #   inputs:
-          #     targetType: 'inline'
-          #     script: |
-          #       docker save MY_DOCKER_REPO_IMAGE_NAME:$(tag) -o $(Pipeline.Workspace)/MY_IMAGE_FILE.tar
+          - task: Bash@3
+            displayName: Save Docker Image
+            inputs:
+              targetType: "inline"
+              script: |
+                docker save pulsecare-web:$(tag) -o $(Pipeline.Workspace)/pulsecare-web.tar
 
           - script: dir
             displayName: "List Files"
