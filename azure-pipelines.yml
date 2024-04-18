@@ -19,73 +19,73 @@ pool:
   name: default
 
 stages:
-  # - stage: Test
-  #   jobs:
-  #     - job: Test
-  #       displayName: Test
-  #       timeoutInMinutes: "10"
-  #       # Define agent to run the pipeline
+  - stage: Test
+    jobs:
+      - job: Test
+        displayName: Test
+        timeoutInMinutes: "10"
+        # Define agent to run the pipeline
 
-  #       steps:
-  #         - task: NodeTool@0
-  #           inputs:
-  #             versionSpec: $(node_version)
-  #           displayName: "Install Node.js"
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: $(node_version)
+            displayName: "Install Node.js"
 
-  #         - script: corepack enable
-  #           displayName: "Enable Corepack"
+          - script: corepack enable
+            displayName: "Enable Corepack"
 
-  #         - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
-  #           displayName: "Set PNPM cache directory"
+          - script: pnpm config set store-dir $(PNPM_CACHE_FOLDER)
+            displayName: "Set PNPM cache directory"
 
-  #         - script: pnpm store path
-  #           displayName: "Show store path"
+          - script: pnpm store path
+            displayName: "Show store path"
 
-  #         - script: pnpm install && pnpm dlx prisma generate && pnpm run build
-  #           displayName: "Install and build (with Prisma Client)"
+          - script: pnpm install && pnpm dlx prisma generate && pnpm run build
+            displayName: "Install and build (with Prisma Client)"
 
-  #         - script: |
-  #             pnpm run test:ci
-  #           displayName: "Run tests and Generate coverage"
+          - script: |
+              pnpm run test:ci
+            displayName: "Run tests and Generate coverage"
 
-  #         - task: PublishTestResults@2
-  #           inputs:
-  #             testResultsFormat: "JUnit"
-  #             testResultsFiles: junit.xml
-  #             searchFolder: "$(System.DefaultWorkingDirectory)"
-  #             failTaskOnMissingResultsFile: true
+          - task: PublishTestResults@2
+            inputs:
+              testResultsFormat: "JUnit"
+              testResultsFiles: junit.xml
+              searchFolder: "$(System.DefaultWorkingDirectory)"
+              failTaskOnMissingResultsFile: true
 
-  #         - task: PublishCodeCoverageResults@1
-  #           condition: succeededOrFailed()
-  #           inputs:
-  #             codeCoverageTool: "Cobertura"
-  #             summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
-  #           displayName: "Publish Code Coverage Results"
+          - task: PublishCodeCoverageResults@1
+            condition: succeededOrFailed()
+            inputs:
+              codeCoverageTool: "Cobertura"
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+            displayName: "Publish Code Coverage Results"
 
-  #         # - task: DockerCompose@0
-  #         #   inputs:
-  #         #     containerregistrytype: "Container Registry"
-  #         #     dockerRegistryEndpoint: "Github Container Registry"
-  #         #     dockerComposeFile: "docker/docker-compose.yml"
-  #         #     action: "Build services"
-  #         #     additionalImageTags: $(Build.BuildId)
-  #         #     includeLatestTag: true
-  #         - task: SonarQubePrepare@5
-  #           inputs:
-  #             SonarQube: "Joe_local_sonar"
-  #             scannerMode: "CLI"
-  #             configMode: "manual"
-  #             cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
-  #             cliSources: "."
-  #           continueOnError: true
+          # - task: DockerCompose@0
+          #   inputs:
+          #     containerregistrytype: "Container Registry"
+          #     dockerRegistryEndpoint: "Github Container Registry"
+          #     dockerComposeFile: "docker/docker-compose.yml"
+          #     action: "Build services"
+          #     additionalImageTags: $(Build.BuildId)
+          #     includeLatestTag: true
+          - task: SonarQubePrepare@5
+            inputs:
+              SonarQube: "Joe_local_sonar"
+              scannerMode: "CLI"
+              configMode: "manual"
+              cliProjectKey: "PulseCare-webApp_PulseCare-webApp_30d57032-9f5a-4646-9f12-43d4abc077c5"
+              cliSources: "."
+            continueOnError: true
 
-  #         - task: SonarQubeAnalyze@5
-  #           inputs:
-  #             jdkversion: "JAVA_HOME"
-  #           continueOnError: true
+          - task: SonarQubeAnalyze@5
+            inputs:
+              jdkversion: "JAVA_HOME"
+            continueOnError: true
 
-  #         - script: echo $(Build.ArtifactStagingDirectory)
-  #           displayName: "Debug"
+          - script: echo $(Build.ArtifactStagingDirectory)
+            displayName: "Debug"
 
   - stage: Build
     jobs:
@@ -106,48 +106,6 @@ stages:
               tags: "$(tag)"
               arguments: "--target=runner --build-arg DATABASE_URL=$(DATABASE_URL) --build-arg AUTH_SECRET=$(AUTH_SECRET) --build-arg AUTH_GOOGLE_ID=$(AUTH_GOOGLE_ID) --build-arg AUTH_GOOGLE_SECRET=$(AUTH_GOOGLE_SECRET)"
 
-          # - task: Bash@3
-          #   displayName: Save Docker Image
-          #   inputs:
-          #     targetType: "inline"
-          #     script: |
-          #       docker save pulsecare-web:$(tag) -o $(Pipeline.Workspace)\pulsecare-web.tar
-
-          # - script: dir
-          #   displayName: "List Files"
-          # - script: dir $(Pipeline.Workspace)
-          #   displayName: "List Files"
-
-          # - script: dir $(Build.ArtifactStagingDirectory)
-          #   displayName: "List Files in Artifact Directory"
-
-          # - script: dir $(Build.ArtifactStagingDirectory)\pulsecare-web
-          #   displayName: "List Files in Artifact Directory"
-          #   continueOnError: "true"
-
-          # - publish: "$(Build.ArtifactStagingDirectory)/pulsecare-web"
-          #   displayName: "Publish Pulsecare-Image"
-          #   artifact: dropScripts
-
-          # - task: PublishPipelineArtifact@1
-          #   inputs:
-          #     targetPath: "$(Pipeline.Workspace)"
-          #     artifact: "pulsecare-web"
-          #     publishLocation: "pipeline"
-          #   continueOnError: true
-
-          # - task: PublishBuildArtifacts@1
-          #   inputs:
-          #     PathtoPublish: '$(Build.ArtifactStagingDirectory)\pulsecare-web\pulsecare-web'
-          #     ArtifactName: "pulsecare-web"
-          #     publishLocation: "Container"
-          #     # StoreAsTar: true
-          #   continueOnError: true
-
-          # - publish: $(Build.ArtifactStagingDirectory)\pulsecare-web
-          #   artifact: "PulseCare-Web_Image"
-          #   displayName: "Publish Artifact to Pipeline"
-          #   continueOnError: "true"
           - script: dir $(Pipeline.Workspace)
             displayName: "List Files in Workspace"
 
@@ -163,19 +121,6 @@ stages:
           - script: dir $(Pipeline.Workspace)
             displayName: "List Files in Workspace"
 
-        # # - task: Docker@2
-        # #   inputs:
-        # #     containerRegistry: 'Github Container Registry'
-        # #     repository: 'pulsecare-web'
-        # #     command: 'push'
-        # # - task: DockerCompose@0
-        # #   inputs:
-        # #     containerregistrytype: 'Container Registry'
-        # #     dockerRegistryEndpoint: 'Github Container Registry'
-        # #     dockerComposeFile: '**/docker/docker-compose.yml'
-        # #     action: 'Run a Docker Compose command'
-        # #     arguments: '--profile=prod'
-
   - stage: DEV
     jobs:
       - job: Deploy_to_Dev
@@ -188,14 +133,6 @@ stages:
 
               command: "pull"
               arguments: ghcr.io/cc-comp308001-group04/pulsecare-web:$(tag)
-
-          # - task: Bash@3
-          #   displayName: Pulling docker image
-          #   inputs:
-          #     targetType: inline
-          #     # docker_registry_name - name of the private repository
-          #     script: |
-          #       docker pull $(docker_registry_name)/$(image_name):$(tag)
 
           - script: dir $(Pipeline.Workspace)
             displayName: "List Files in Workspace"
