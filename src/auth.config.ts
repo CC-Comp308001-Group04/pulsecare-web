@@ -30,7 +30,7 @@ export default {
           });
 
           if (!user || !user.password) return null;
-
+          //TODO: reimplement hashing using native apis https://stackoverflow.com/a/61405208/18686901
           const passwordMatch = await bcrypt.compare(password, user.password);
 
           if (passwordMatch) {
@@ -53,7 +53,7 @@ export default {
           name: profile.name,
           image: profile.picture,
           email: profile.email,
-          isNurse: profile.isNurse ?? false,
+          role: profile.role ?? "patient",
         };
       },
       // https://authjs.dev/reference/core/errors/#oauthaccountnotlinked

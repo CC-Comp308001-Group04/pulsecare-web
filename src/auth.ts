@@ -7,18 +7,16 @@ import "next-auth/jwt";
 
 declare module "next-auth" {
   interface User {
-    isNurse: boolean;
+    role: string;
   }
   interface Session {
-    user: {
-      role: string;
-    } & DefaultSession["user"];
+    user: {} & DefaultSession["user"];
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    isNurse: boolean;
+    role: string;
   }
 }
 
@@ -46,11 +44,18 @@ export const {
     // },
     // README: we decided to use JWT as strategy, hence we need to define it
     async jwt({ token, user }) {
-      if (user) token.isNurse = user.isNurse;
+      if (user && user.id) {
+        token.role = user.role;
+        if (!token.sub) token.sub = user.id;
+      }
+
       return token;
     },
     async session({ session, token }) {
-      session.user.role = token.isNurse ? "nurse" : "patient";
+      session.user.role = token.role;
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
       return session;
     },
   },

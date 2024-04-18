@@ -12,12 +12,19 @@ model User {
   name          String?
   email         String?         @unique
   emailVerified DateTime?
-  isNurse       Boolean         @default(false)
+  sex           String?
+  dateOfBirth   DateTime?       @map("date_of_birth")
+  role          Role            @default(patient)
   password      String?
   image         String?
-  accounts      Account[]
-  sessions      Session[]
-  // Optional for WebAuthn support
+  MedicalRecord MedicalRecord[]
+
+  // https://www.prisma.io/docs/orm/prisma-schema/data-model/relations/self-relations#one-to-many-self-relations
+  nurseId       String?         @db.ObjectId
+  nurse         User?           @relation("NursePatients", fields: [nurseId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  patients      User[]          @relation("NursePatients")
+  Account       Account[]
+  Session       Session[]
   Authenticator Authenticator[]
 
   createdAt DateTime @default(now())
@@ -79,4 +86,29 @@ model Authenticator {
   transports           String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model MedicalRecord {
+  id                            String    @id @default(auto()) @map("_id") @db.ObjectId
+  patientId                     String    @db.ObjectId
+  chestPain                     Int?      @map("cp") // Chest pain type: 1, 2, 3, 4
+  restingBloodPressure          Int?      @map("trestbps") // Resting blood pressure in mm Hg
+  cholesterol                   Int?      @map("chol") // Serum cholesterol in mg/dl
+  fastingBloodSugar             Boolean?  @map("fbs") // Fasting blood sugar: 1 for true, 0 for false
+  restingElectrocardio          Int?  @map("restecg") // Resting electrocardiographic results: 0, 1, 2
+  maxHeartRate                  Int?      @map("thalach") // Maximum heart rate achieved
+  exerciseInduced               Boolean?  @map("exang") // Exercise induced angina: 1 for yes, 0 for no
+  stDepressionInducedByExercise Float?    @map("oldepeak") // ST depression induced by exercise relative to rest
+  slope                         Int?      @map("slope") // Slope of the peak exercise ST segment: 1, 2, 3
+  vesselsColoredByFluoroscopy   Float?    @map("ca") // Number of major vessels colored by fluoroscopy
+  thalliumStressTest            Float?    @map("thal") // Thallium stress test result: 3, 6, 7
+  hasHeartDisease               Boolean?  @map("num") // Presence of heart disease: 0 for no, 1 for yes
+  createdAt                     DateTime @default(now())
+  updatedAt                     DateTime? @updatedAt
+  patient                       User?     @relation(fields: [patientId], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+  patient
+  nurse
 }

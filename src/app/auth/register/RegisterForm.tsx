@@ -10,8 +10,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { AlertCircle, ShieldEllipsis } from "lucide-react";
+import { AlertCircle, BriefcaseMedical } from "lucide-react";
 
+import { register } from "@/actions/register";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -25,12 +27,10 @@ import { Label } from "@/components/ui/label";
 import { SocialButtons } from "@/components/ui/social-buttons";
 import { RegisterSchema } from "@/schemas/register.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { register } from "@/actions/register";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { useSearchParams } from "next/navigation";
 
 export function RegisterForm() {
   const searchParams = useSearchParams();
@@ -153,7 +153,7 @@ export function RegisterForm() {
                 htmlFor="isNurse"
                 className=" flex items-center space-x-4 rounded-md border p-4"
               >
-                <ShieldEllipsis />
+                <BriefcaseMedical />
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium leading-none">
                     Are you a nurse?
