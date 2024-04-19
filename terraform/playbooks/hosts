@@ -2,7 +2,7 @@ all:
   children:
     debian_servers:
       hosts:
-        34.133.121.161:
+        34.41.78.219:
           ansible_ssh_user: ruslan
           ansible_ssh_private_key_file: /home/glad2os/id_rsa
       vars:
