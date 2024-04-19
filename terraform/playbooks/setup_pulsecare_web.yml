@@ -1,0 +1,30 @@
+---
+- name: Setup PulseCare Web Application
+  hosts: all
+  become: yes
+  vars:
+    repo_url: "https://github.com/CC-Comp308001-Group04/pulsecare-web"
+    repo_dest: "/home/ruslan/pulsecare-web"
+    docker_compose_directory: "docker"
+
+  tasks:
+    - name: Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: Clone PulseCare web repository
+      git:
+        repo: "{{ repo_url }}"
+        dest: "{{ repo_dest }}"
+        clone: yes
+        update: yes
+      become_user: "{{ ansible_ssh_user }}"
+
+    - name: Run Docker Compose in the specified directory
+      ansible.builtin.shell:
+        cmd: docker compose --profile dev up -d
+        chdir: "{{ repo_dest }}/{{ docker_compose_directory }}"
+      environment:
+        PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
